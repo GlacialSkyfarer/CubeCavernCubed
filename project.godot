@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="Cube Cavern^3"
+config/name="Cube Cavern Cubed"
 config/description="Cube Cavern made by ZKevin, ported to pc and finished!"
 run/main_scene="res://Main.tscn"
 config/features=PackedStringArray("4.0", "C#", "Forward Plus")
