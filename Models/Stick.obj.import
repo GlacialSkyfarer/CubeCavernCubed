@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://boyudpo4g0ujt"
+path="res://.godot/imported/Stick.obj-5e88ed47f72cd7a10ccc38e195239063.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Stick.obj-5e88ed47f72cd7a10ccc38e195239063.mesh"]
+
+source_file="res://Models/Stick.obj"
+dest_files=["res://.godot/imported/Stick.obj-5e88ed47f72cd7a10ccc38e195239063.mesh", "res://.godot/imported/Stick.obj-5e88ed47f72cd7a10ccc38e195239063.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true

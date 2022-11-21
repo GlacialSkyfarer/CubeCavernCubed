@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://bearnjn2dsydp"
+path="res://.godot/imported/red song.mp3-5a70192b72d6dacea710d5fb419443c1.mp3str"
+
+[deps]
+
+source_file="res://sounds/red song.mp3"
+dest_files=["res://.godot/imported/red song.mp3-5a70192b72d6dacea710d5fb419443c1.mp3str"]
+
+[params]
+
+loop=true
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

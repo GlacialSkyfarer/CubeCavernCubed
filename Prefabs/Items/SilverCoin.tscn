@@ -1,0 +1,46 @@
+[gd_scene load_steps=9 format=3 uid="uid://cxosc63rrhsr7"]
+
+[ext_resource type="Script" path="res://Prefabs/Items/ItemProperties.cs" id="1_ke8op"]
+[ext_resource type="Script" path="res://Items/ItemScript.cs" id="2_d8dhd"]
+[ext_resource type="Script" path="res://Items/ItemResource.cs" id="2_f07d2"]
+[ext_resource type="Texture2D" uid="uid://c2go1hj6wc8v1" path="res://Models/SilverCoin.png" id="3_7hltl"]
+[ext_resource type="ArrayMesh" uid="uid://cpctj8ua2gniy" path="res://Models/Coin.obj" id="4_qnwya"]
+
+[sub_resource type="Resource" id="Resource_yr75b"]
+script = ExtResource("2_f07d2")
+itemScript = ExtResource("2_d8dhd")
+itemName = "Silver Coin"
+isInventoryItem = false
+itemValue = 3
+givesValue = true
+ammoValue = 0
+givesAmmo = false
+healthValue = 0
+givesHealth = false
+isWeapon = false
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_wothy"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o44bj"]
+resource_local_to_scene = true
+albedo_texture = ExtResource("3_7hltl")
+emission_enabled = true
+emission_energy_multiplier = 0.0
+texture_filter = 0
+
+[node name="SilverCoin" type="RigidBody3D"]
+collision_layer = 6
+collision_mask = 6
+lock_rotation = true
+script = ExtResource("1_ke8op")
+itemResource = SubResource("Resource_yr75b")
+metadata/interactableType = "Item"
+metadata/tooltip = "[p align=center][color=LIGHT_GRAY]Worth 3 coins[/color][/p]"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.4, 0, 0, 0, 0.03, 0, 0, 0, 0.4, 0, 0, 0)
+shape = SubResource("CylinderShape3D_wothy")
+
+[node name="Mesh" type="MeshInstance3D" parent="."]
+material_override = SubResource("StandardMaterial3D_o44bj")
+mesh = ExtResource("4_qnwya")

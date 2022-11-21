@@ -1,0 +1,337 @@
+[gd_scene load_steps=33 format=3 uid="uid://b86myjmw5s6o6"]
+
+[ext_resource type="Script" path="res://PlayerMovement.cs" id="1_pmyl1"]
+[ext_resource type="Texture2D" uid="uid://cb4e5ch2a4mgv" path="res://Textures/walls/yellow.png" id="1_tgija"]
+[ext_resource type="Texture2D" uid="uid://c1tb74605w8vo" path="res://Textures/cursor.png" id="2_rrf8i"]
+[ext_resource type="Texture2D" uid="uid://ceuhx0bovxbnl" path="res://mugs/Blue Sniper.png" id="3_fuomf"]
+[ext_resource type="Script" path="res://Cursor.cs" id="5_4b7f7"]
+[ext_resource type="PackedScene" uid="uid://ibskod0na1hb" path="res://Prefabs/Items/CopperCoin.tscn" id="7_siap7"]
+[ext_resource type="PackedScene" uid="uid://cxosc63rrhsr7" path="res://Prefabs/Items/SilverCoin.tscn" id="8_bivoo"]
+[ext_resource type="PackedScene" uid="uid://bc65227j3q4ci" path="res://Prefabs/Items/GoldCoin.tscn" id="9_hyiag"]
+[ext_resource type="PackedScene" uid="uid://dkyhv3gjaqqil" path="res://Prefabs/Items/PlatinumCoin.tscn" id="10_rlx6e"]
+
+[sub_resource type="SystemFont" id="SystemFont_moymk"]
+font_names = PackedStringArray("Arial")
+generate_mipmaps = true
+oversampling = 7.5
+
+[sub_resource type="LabelSettings" id="LabelSettings_8yj1n"]
+font = SubResource("SystemFont_moymk")
+font_size = 100
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_2jj80"]
+radius = 0.4
+
+[sub_resource type="Environment" id="Environment_tf17e"]
+background_mode = 1
+ambient_light_source = 2
+ambient_light_color = Color(0.537255, 0.435294, 0.423529, 1)
+ambient_light_sky_contribution = 0.0
+glow_enabled = true
+glow_bloom = 0.11
+glow_hdr_threshold = 0.39
+fog_enabled = true
+fog_light_color = Color(0.956863, 0.533333, 0.145098, 1)
+fog_density = 0.0113
+volumetric_fog_density = 0.0733
+volumetric_fog_albedo = Color(1, 0.662745, 0.345098, 1)
+volumetric_fog_detail_spread = 1.31951
+volumetric_fog_ambient_inject = 4.32
+volumetric_fog_sky_affect = 0.719
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_so3ws"]
+dof_blur_far_enabled = true
+dof_blur_far_distance = 20.0
+
+[sub_resource type="Animation" id="Animation_3pxco"]
+resource_name = "PlayerCameraIdle"
+length = 0.001
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_3mmwb"]
+resource_name = "PlayerCameraWalk"
+length = 0.4
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, -0.0174533), Vector3(0, 0, 0.0174533)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fumbb"]
+_data = {
+"PlayerCameraIdle": SubResource("Animation_3pxco"),
+"PlayerCameraWalk": SubResource("Animation_3mmwb")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ukfjy"]
+animation = &"PlayerCameraIdle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_533i1"]
+animation = &"PlayerCameraWalk"
+
+[sub_resource type="Curve" id="Curve_gg5ik"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_qk1ct"]
+xfade_time = 0.2
+xfade_curve = SubResource("Curve_gg5ik")
+
+[sub_resource type="Curve" id="Curve_u5csf"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ev64e"]
+xfade_time = 0.2
+xfade_curve = SubResource("Curve_u5csf")
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_rmoq8"]
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_ma5oa"]
+states/End/position = Vector2(1014, 59)
+states/PlayerCameraIdle/node = SubResource("AnimationNodeAnimation_ukfjy")
+states/PlayerCameraIdle/position = Vector2(322, 100)
+states/PlayerCameraWalk/node = SubResource("AnimationNodeAnimation_533i1")
+states/PlayerCameraWalk/position = Vector2(600, 106)
+states/Start/position = Vector2(169, 100)
+transitions = ["PlayerCameraIdle", "PlayerCameraWalk", SubResource("AnimationNodeStateMachineTransition_qk1ct"), "PlayerCameraWalk", "PlayerCameraIdle", SubResource("AnimationNodeStateMachineTransition_ev64e"), "Start", "PlayerCameraIdle", SubResource("AnimationNodeStateMachineTransition_rmoq8")]
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_5nhwn"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5rvk6"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wvnjb"]
+diffuse_mode = 3
+specular_mode = 1
+albedo_texture = ExtResource("1_tgija")
+metallic_specular = 1.0
+emission = Color(0.219608, 0.243137, 0.25098, 1)
+rim = 0.72
+rim_tint = 0.0
+clearcoat_roughness = 0.72
+refraction_scale = 0.69
+refraction_texture = ExtResource("3_fuomf")
+uv1_triplanar = true
+uv1_world_triplanar = true
+uv2_triplanar = true
+uv2_world_triplanar = true
+texture_filter = 0
+
+[sub_resource type="BoxMesh" id="BoxMesh_j8skr"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_od06v"]
+bg_color = Color(0.188235, 0.188235, 0.188235, 0.568627)
+draw_center = false
+
+[sub_resource type="SystemFont" id="SystemFont_dvq47"]
+font_names = PackedStringArray("Nirmala UI")
+font_style = 1
+generate_mipmaps = true
+oversampling = 3.3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_aliak"]
+bg_color = Color(0.231373, 0.160784, 0.364706, 0.207843)
+
+[node name="Root" type="Node3D"]
+
+[node name="ItemCount" type="Label" parent="."]
+anchors_preset = -1
+anchor_left = 0.037
+anchor_top = 0.056
+anchor_right = 0.131
+anchor_bottom = 0.214
+offset_left = -0.0400009
+offset_top = -0.480003
+offset_right = 147.48
+offset_bottom = -0.12001
+text = "0 Items"
+label_settings = SubResource("LabelSettings_8yj1n")
+
+[node name="Player" type="CharacterBody3D" parent="."]
+editor_description = "The player of the game!"
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.01238, 0)
+script = ExtResource("1_pmyl1")
+Speed = 6.5
+JumpVelocity = 6.0
+minLookAngle = -1.4
+maxLookAngle = 1.4
+lookSensitivity = 6.0
+movementControl = 0.2
+maxHangTime = 0.4
+
+[node name="PlayerCollider" type="CollisionShape3D" parent="Player"]
+shape = SubResource("CapsuleShape3D_2jj80")
+
+[node name="PlayerCamera" type="Node3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.615711, 0)
+
+[node name="Camera" type="Camera3D" parent="Player/PlayerCamera"]
+environment = SubResource("Environment_tf17e")
+attributes = SubResource("CameraAttributesPractical_so3ws")
+fov = 102.5
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Player/PlayerCamera/Camera"]
+autoplay = "PlayerCameraIdle"
+reset_on_save = false
+libraries = {
+"": SubResource("AnimationLibrary_fumbb")
+}
+
+[node name="AnimationTree" type="AnimationTree" parent="Player/PlayerCamera/Camera"]
+tree_root = SubResource("AnimationNodeStateMachine_ma5oa")
+anim_player = NodePath("../AnimationPlayer")
+active = true
+parameters/playback = SubResource("AnimationNodeStateMachinePlayback_5nhwn")
+
+[node name="PlayerLight" type="OmniLight3D" parent="Player/PlayerCamera"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.012002, 0)
+light_color = Color(1, 0.776471, 0.509804, 1)
+light_energy = 2.772
+light_specular = 0.0
+shadow_enabled = true
+omni_range = 6.44055
+
+[node name="RayCast3D" type="RayCast3D" parent="Player/PlayerCamera"]
+target_position = Vector3(0, 0, -3)
+collision_mask = 2
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(17.0675, 0, 0.079183, 0, 1, 0, -0.0822164, 0, 16.4377, 0, -0.517956, 0)
+collision_layer = 5
+collision_mask = 5
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("BoxShape3D_5rvk6")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 9.31323e-10, 0, 1, 0, 9.31323e-10, 0, 1, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_wvnjb")
+mesh = SubResource("BoxMesh_j8skr")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 9.31323e-10, 0, 1, 0, 0, 0, 1, 0, 9.2169, 0)
+material_override = SubResource("StandardMaterial3D_wvnjb")
+mesh = SubResource("BoxMesh_j8skr")
+
+[node name="StaticBody3D2" type="StaticBody3D" parent="."]
+transform = Transform3D(16.9914, 0, 0.00590817, 0, 8.48903, 0, -0.0818499, 0, 1.22649, 0, 4.23175, -7.64663)
+collision_layer = 5
+collision_mask = 5
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D2"]
+shape = SubResource("BoxShape3D_5rvk6")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D2"]
+transform = Transform3D(1, 0, 9.31323e-10, 0, 1, 0, 9.31323e-10, 0, 1, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_wvnjb")
+mesh = SubResource("BoxMesh_j8skr")
+
+[node name="StaticBody3D4" type="StaticBody3D" parent="."]
+transform = Transform3D(0.0818492, 0, -1.22649, 0, 8.48903, 0, 16.9914, 0, 0.00590811, 7.9614, 4.23175, 0.0544243)
+collision_layer = 5
+collision_mask = 5
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D4"]
+shape = SubResource("BoxShape3D_5rvk6")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D4"]
+transform = Transform3D(1, 0, 9.31323e-10, 0, 1, 0, 9.31323e-10, 0, 1, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_wvnjb")
+mesh = SubResource("BoxMesh_j8skr")
+
+[node name="StaticBody3D5" type="StaticBody3D" parent="."]
+transform = Transform3D(0.0818492, 0, -1.22649, 0, 8.48903, 0, 16.9914, 0, 0.00590811, -8.71865, 4.23175, 0.0544243)
+collision_layer = 5
+collision_mask = 5
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D5"]
+shape = SubResource("BoxShape3D_5rvk6")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D5"]
+transform = Transform3D(1, 0, 9.31323e-10, 0, 1, 0, 9.31323e-10, 0, 1, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_wvnjb")
+mesh = SubResource("BoxMesh_j8skr")
+
+[node name="StaticBody3D3" type="StaticBody3D" parent="."]
+transform = Transform3D(16.9914, 0, 0.00590817, 0, 8.48903, 0, -0.0818499, 0, 1.22649, 0, 4.23175, 7.48037)
+collision_layer = 5
+collision_mask = 5
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D3"]
+shape = SubResource("BoxShape3D_5rvk6")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D3"]
+transform = Transform3D(1, 0, 9.31323e-10, 0, 1, 0, 9.31323e-10, 0, 1, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_wvnjb")
+mesh = SubResource("BoxMesh_j8skr")
+
+[node name="Cursor" type="Sprite2D" parent="."]
+scale = Vector2(0.01, 0.01)
+texture = ExtResource("2_rrf8i")
+script = ExtResource("5_4b7f7")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = 50.0
+offset_right = 150.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(150, 0)
+size_flags_horizontal = 6
+size_flags_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_od06v")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="PanelContainer"]
+offset_right = 300.0
+offset_bottom = 56.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(150, 50)
+size_flags_vertical = 0
+theme_override_fonts/normal_font = SubResource("SystemFont_dvq47")
+theme_override_font_sizes/normal_font_size = 20
+theme_override_font_sizes/italics_font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_aliak")
+bbcode_enabled = true
+text = "[center]This is an Example Item
+I am Iron Man"
+fit_content_height = true
+context_menu_enabled = true
+
+[node name="CopperCoin" parent="." instance=ExtResource("7_siap7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.07542, -0.017956, 5.17365)
+
+[node name="SilverCoin" parent="." instance=ExtResource("8_bivoo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.49058, -0.017956, -3.17066)
+
+[node name="GoldCoin" parent="." instance=ExtResource("9_hyiag")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.430079, -0.017956, -2.15358)
+
+[node name="PlatinumCoin" parent="." instance=ExtResource("10_rlx6e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.57786, -0.017956, -1.38295)

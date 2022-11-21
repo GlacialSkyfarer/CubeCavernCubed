@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dg7q1a7ttu2ol"
+path="res://.godot/imported/Yellow Boss Theme.mp3-d6429377af61eb26f434ac9e3cb557a0.mp3str"
+
+[deps]
+
+source_file="res://sounds/Yellow Boss Theme.mp3"
+dest_files=["res://.godot/imported/Yellow Boss Theme.mp3-d6429377af61eb26f434ac9e3cb557a0.mp3str"]
+
+[params]
+
+loop=true
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

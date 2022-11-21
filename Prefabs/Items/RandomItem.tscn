@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://g1kqwo5qxg54"]
+
+[ext_resource type="Script" path="res://RandomItemSpawner.cs" id="1_t20a1"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_dc2f6"]
+size = Vector3(0.3, 0.3, 0.3)
+
+[node name="RandomItem" type="MeshInstance3D"]
+mesh = SubResource("BoxMesh_dc2f6")
+script = ExtResource("1_t20a1")

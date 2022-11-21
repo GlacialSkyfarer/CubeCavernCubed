@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://cyyckngp6hghv"
+path="res://.godot/imported/purple song.mp3-e48ab5331dab9c7b0187be952d0bfd3c.mp3str"
+
+[deps]
+
+source_file="res://sounds/purple song.mp3"
+dest_files=["res://.godot/imported/purple song.mp3-e48ab5331dab9c7b0187be952d0bfd3c.mp3str"]
+
+[params]
+
+loop=true
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

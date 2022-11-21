@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://ci16r4vag417q"
+path="res://.godot/imported/lobby song 2.mp3-59fe4da17968aad3c77aef0096e04162.mp3str"
+
+[deps]
+
+source_file="res://sounds/lobby song 2.mp3"
+dest_files=["res://.godot/imported/lobby song 2.mp3-59fe4da17968aad3c77aef0096e04162.mp3str"]
+
+[params]
+
+loop=true
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

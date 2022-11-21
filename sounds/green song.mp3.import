@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://b2yg47hp58qa3"
+path="res://.godot/imported/green song.mp3-516d07e3de5657ffee1da1f6b61a2f90.mp3str"
+
+[deps]
+
+source_file="res://sounds/green song.mp3"
+dest_files=["res://.godot/imported/green song.mp3-516d07e3de5657ffee1da1f6b61a2f90.mp3str"]
+
+[params]
+
+loop=true
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

@@ -1,0 +1,17 @@
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://dqh22aqiyoo66"]
+
+[ext_resource type="Script" path="res://Items/ItemResource.cs" id="1_57ax3"]
+[ext_resource type="Script" path="res://Items/ItemScript.cs" id="1_l1r5q"]
+
+[resource]
+script = ExtResource("1_57ax3")
+itemScript = ExtResource("1_l1r5q")
+itemName = ""
+isInventoryItem = false
+itemValue = 0
+givesValue = false
+ammoValue = 0
+givesAmmo = false
+healthValue = 0
+givesHealth = false
+isWeapon = false

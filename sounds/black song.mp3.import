@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://c3q4cnx87v7jm"
+path="res://.godot/imported/black song.mp3-adbb288babd9e75ce1d63db5fd6146ba.mp3str"
+
+[deps]
+
+source_file="res://sounds/black song.mp3"
+dest_files=["res://.godot/imported/black song.mp3-adbb288babd9e75ce1d63db5fd6146ba.mp3str"]
+
+[params]
+
+loop=true
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
