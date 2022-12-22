@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dyvwtlecqvet1"
+path="res://.godot/imported/Red Theme.mp3-d3ba6ca0b6650c242e8a13f9da697582.mp3str"
+
+[deps]
+
+source_file="res://sounds/Red Theme.mp3"
+dest_files=["res://.godot/imported/Red Theme.mp3-d3ba6ca0b6650c242e8a13f9da697582.mp3str"]
+
+[params]
+
+loop=true
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

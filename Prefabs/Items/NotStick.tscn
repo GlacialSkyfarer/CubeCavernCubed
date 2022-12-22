@@ -1,0 +1,35 @@
+[gd_scene load_steps=7 format=3 uid="uid://cv1ih42mvmiam"]
+
+[ext_resource type="Script" path="res://Prefabs/Items/ItemProperties.cs" id="1_x7lkj"]
+[ext_resource type="Resource" uid="uid://dmbnpnvoac82b" path="res://Items/NotStick.tres" id="2_bdxe0"]
+[ext_resource type="Texture2D" uid="uid://w4qb0gish33l" path="res://Models/Stick.png" id="4_ruimn"]
+[ext_resource type="ArrayMesh" uid="uid://boyudpo4g0ujt" path="res://Models/Stick.obj" id="5_uk4l3"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_wothy"]
+height = 0.65
+radius = 0.03
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o44bj"]
+resource_local_to_scene = true
+albedo_texture = ExtResource("4_ruimn")
+emission_enabled = true
+emission_energy_multiplier = 0.0
+texture_filter = 0
+
+[node name="CharacterBody3D" type="CharacterBody3D"]
+collision_layer = 2
+collision_mask = 4
+script = ExtResource("1_x7lkj")
+itemResource = ExtResource("2_bdxe0")
+metadata/tooltip = "[p align=center]Magically removes items from exsistence.[/p][p align=center][color=LIGHT_GRAY][i]Well then what the fuck is it?![/i][/color][/p]"
+metadata/interactableType = "Item"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.81828, -0.57482, 0, 0.57482, 0.81828, 0, 0, 0)
+shape = SubResource("CylinderShape3D_wothy")
+
+[node name="Mesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.81828, -0.57482, 0, 0.57482, 0.81828, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_o44bj")
+mesh = ExtResource("5_uk4l3")
+skeleton = NodePath("")

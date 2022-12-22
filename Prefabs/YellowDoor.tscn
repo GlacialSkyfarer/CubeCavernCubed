@@ -1,0 +1,106 @@
+[gd_scene load_steps=16 format=3 uid="uid://ddw55put0yacf"]
+
+[ext_resource type="Script" path="res://Door.cs" id="1_08f65"]
+[ext_resource type="Texture2D" uid="uid://djvdk7on6d7w1" path="res://Models/YellowDoor.png" id="2_87mba"]
+[ext_resource type="ArrayMesh" uid="uid://cdgywbm1gcbtq" path="res://Models/YellowDoor.obj" id="3_utd7g"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ng1vi"]
+resource_local_to_scene = true
+albedo_texture = ExtResource("2_87mba")
+emission_enabled = true
+emission_energy_multiplier = 0.0
+texture_filter = 0
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_332dt"]
+size = Vector3(1, 2, 0.2)
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_m7u3a"]
+animation = &"DoorClosed"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_4waq7"]
+animation = &"DoorOpen"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_qixnp"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_dxins"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_wk2v0"]
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_xfkgc"]
+states/DoorClosed/node = SubResource("AnimationNodeAnimation_m7u3a")
+states/DoorClosed/position = Vector2(480, 95)
+states/DoorOpen/node = SubResource("AnimationNodeAnimation_4waq7")
+states/DoorOpen/position = Vector2(317, 95)
+transitions = ["Start", "DoorOpen", SubResource("AnimationNodeStateMachineTransition_qixnp"), "DoorOpen", "DoorClosed", SubResource("AnimationNodeStateMachineTransition_dxins"), "DoorClosed", "DoorOpen", SubResource("AnimationNodeStateMachineTransition_wk2v0")]
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_cjrwu"]
+
+[sub_resource type="Animation" id="Animation_u3k7b"]
+resource_name = "DoorOpen"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 1.5708, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_pn6hu"]
+resource_name = "DoorClosed"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 1.5708, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_11cb0"]
+_data = {
+"DoorClosed": SubResource("Animation_pn6hu"),
+"DoorOpen": SubResource("Animation_u3k7b")
+}
+
+[node name="Door" type="Node3D"]
+
+[node name="Door" type="CharacterBody3D" parent="."]
+collision_layer = 3
+collision_mask = 3
+script = ExtResource("1_08f65")
+openLayers = 3
+closedLayers = 2
+animTree = NodePath("AnimationTree")
+metadata/interactableType = "Door"
+metadata/tooltip = "[center][color=LIGHT_GRAY]'E' To open/close."
+
+[node name="Mesh" type="MeshInstance3D" parent="Door"]
+material_override = SubResource("StandardMaterial3D_ng1vi")
+mesh = ExtResource("3_utd7g")
+skeleton = NodePath("../..")
+
+[node name="PhysicalCollider" type="CollisionShape3D" parent="Door"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.375, 1, 0)
+shape = SubResource("BoxShape3D_332dt")
+
+[node name="AnimationTree" type="AnimationTree" parent="Door"]
+tree_root = SubResource("AnimationNodeStateMachine_xfkgc")
+anim_player = NodePath("../AnimationPlayer")
+active = true
+parameters/playback = SubResource("AnimationNodeStateMachinePlayback_cjrwu")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Door"]
+libraries = {
+"": SubResource("AnimationLibrary_11cb0")
+}

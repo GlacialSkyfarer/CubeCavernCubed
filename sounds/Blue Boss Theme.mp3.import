@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://cgip3boicohjy"
+path="res://.godot/imported/Blue Boss Theme.mp3-cc12ce68475601be01b11848ef7d15cd.mp3str"
+
+[deps]
+
+source_file="res://sounds/Blue Boss Theme.mp3"
+dest_files=["res://.godot/imported/Blue Boss Theme.mp3-cc12ce68475601be01b11848ef7d15cd.mp3str"]
+
+[params]
+
+loop=true
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

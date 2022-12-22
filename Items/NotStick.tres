@@ -1,0 +1,20 @@
+[gd_resource type="Resource" load_steps=2 format=3 uid="uid://dmbnpnvoac82b"]
+
+[ext_resource type="Script" path="res://Items/NotStick.cs" id="1_bw4cq"]
+
+[resource]
+resource_local_to_scene = true
+script = ExtResource("1_bw4cq")
+itemName = "Not A Stick"
+id = "NotStick"
+isInventoryItem = true
+itemValue = -427
+givesValue = false
+ammoValue = 0
+givesAmmo = false
+healthValue = 0
+givesHealth = false
+isWeapon = true
+tooltip = "
+[center][color=LIGHT_GRAY]Magically removes items from exsistence.[/color]
+[color=LIGHT_YELLOW][i]Well then what the fuck is it?![/i][/color]"

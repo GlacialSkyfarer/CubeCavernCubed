@@ -5,9 +5,9 @@ public partial class ItemResource : Resource
 {
 
     [Export]
-    public Script itemScript;
-    [Export]
     public string itemName;
+    [Export]
+    public string id;
     [Export]
     public bool isInventoryItem = false;
     [Export]
@@ -24,5 +24,26 @@ public partial class ItemResource : Resource
     public bool givesHealth;
     [Export]
     public bool isWeapon;
+    [Export(PropertyHint.MultilineText)]
+    public string tooltip;
+
+    public virtual async void OnUse(PlayerMovement player, AnimationTree anim) {
+
+        anim.Set("parameters/AttackSeek/seek_position", 0);
+        anim.Set("parameters/AttackShot/active", true);
+
+	}
+
+	public virtual void OnPickup(PlayerMovement player) {
+
+
+
+	}
+
+	public virtual void OnAltUse(PlayerMovement player, AnimationTree anim) {
+
+		
+
+	}
 
 }

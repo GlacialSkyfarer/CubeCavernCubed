@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://c3uqpvbxldt23"]
+
+[ext_resource type="PackedScene" uid="uid://jri6jf3xrfkg" path="res://Models/ViewModel.gltf" id="1_qbbf1"]
+[ext_resource type="PackedScene" uid="uid://csdluq7qs55rh" path="res://Models/Stick.gltf" id="2_x2ba1"]
+
+[node name="Hand" type="Node3D"]
+
+[node name="ViewModel" parent="." instance=ExtResource("1_qbbf1")]
+transform = Transform3D(0.720281, 0, 0, 0, 0.720281, 0, 0, 0, 0.720281, 0.239987, -0.267461, 0.00809053)
+
+[node name="Stick" parent="ViewModel" instance=ExtResource("2_x2ba1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0563911, 0.282916, -0.510028)

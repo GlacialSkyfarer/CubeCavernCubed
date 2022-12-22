@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://gyt2a8w7ib7i"
+path="res://.godot/imported/Blue Theme.mp3-8e8d85b174c0813384bc039e79eead2f.mp3str"
+
+[deps]
+
+source_file="res://sounds/Blue Theme.mp3"
+dest_files=["res://.godot/imported/Blue Theme.mp3-8e8d85b174c0813384bc039e79eead2f.mp3str"]
+
+[params]
+
+loop=true
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

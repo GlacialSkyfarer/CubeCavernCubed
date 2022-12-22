@@ -4,7 +4,43 @@ using System;
 public partial class PlayerMovement : CharacterBody3D
 {
 
+	//NodePaths
+
 	[Export]
+	NodePath headPath;
+	[Export]
+	NodePath tooltipPath;
+	[Export]
+	NodePath itemLabelPath;
+	[Export]
+	NodePath cameraPath;
+	[Export]
+	NodePath interactRayPath;
+	[Export]
+	NodePath cameraAnimPath;
+	[Export]
+	NodePath subViewportPath;
+	[Export]
+	NodePath vmAnimPath;
+	[Export]
+	NodePath normalColliderPath;
+	[Export]
+	NodePath crouchColliderPath;
+	[Export]
+	NodePath standCastPath;
+
+	CollisionShape3D normalCollider;
+	CollisionShape3D crouchCollider;
+	
+	public int selectedSlot = 0;
+	public Godot.Collections.Array<ItemResource> inventory;
+	[Export]
+	public int inventorySize = 3;
+
+	[Export]
+	public float walkSpeed = 6.5f;
+	[Export]
+	public float crouchSpeed = 3.25f;
 	public float Speed = 5.0f;
 	[Export]
 	public float JumpVelocity = 4.5f;
@@ -35,23 +71,40 @@ public partial class PlayerMovement : CharacterBody3D
 
 	int coinCount = 0;
 
-	RayCast3D rayCast;
+	public RayCast3D interactCast;
 
 	AnimationTree cameraAnimTree;
+	AnimationTree vmAnimTree;
 	Node3D camera;
-	Node3D collider;
+	public Node3D collider;
 	RichTextLabel tooltip;
-	AnimationNodeStateMachinePlayback stateMachine;
+	AnimationNodeStateMachinePlayback cameraSM;
+
+	RayCast3D standCast;
+
+	Node3D head;
+
+	Node subViewport;
 	
 	public override void _Ready() {
 
-		tooltip = GetNode<RichTextLabel>("/root/Root/PanelContainer/RichTextLabel");
-		itemLabel = GetNode<Label>("/root/Root/ItemCount");
+		standCast = GetNode<RayCast3D>(standCastPath);
+
+		crouchCollider = GetNode<CollisionShape3D>(crouchColliderPath);
+		normalCollider = GetNode<CollisionShape3D>(normalColliderPath);
+		
+
+		subViewport = GetNode(subViewportPath);
+		vmAnimTree = GetNode<AnimationTree>(vmAnimPath);
+		head = (Node3D)GetNode(headPath);
+		inventory = new Godot.Collections.Array<ItemResource>();
+		tooltip = GetNode<RichTextLabel>(tooltipPath);
+		itemLabel = GetNode<Label>(itemLabelPath);
 		coinCount = 0;
-		camera = GetNode<Node3D>("PlayerCamera");
-		rayCast = camera.GetNode<RayCast3D>("RayCast3D");
-		cameraAnimTree = camera.GetNode<Camera3D>("Camera").GetNode<AnimationTree>("AnimationTree");
-		stateMachine = (AnimationNodeStateMachinePlayback)cameraAnimTree.Get("parameters/playback");
+		camera = GetNode<Node3D>(cameraPath);
+		interactCast = GetNode<RayCast3D>(interactRayPath);
+		cameraAnimTree = GetNode<AnimationTree>(cameraAnimPath);
+		cameraSM = (AnimationNodeStateMachinePlayback)cameraAnimTree.Get("parameters/playback");
 		DisplayServer.MouseSetMode(DisplayServer.MouseMode.Captured);
 
 	}
@@ -67,31 +120,85 @@ public partial class PlayerMovement : CharacterBody3D
 		}
 		
 	}
-		
-	public override void _PhysicsProcess(double delta) 
-	{
 
-		if (rayCast.IsColliding()){
-			((Control)tooltip.GetParent()).Visible = true;
-    		collider = (Node3D)rayCast.GetCollider();
+	public override void _Process(double delta) {
 
-			MeshInstance3D mesh = collider.GetNode<MeshInstance3D>("Mesh");
-			if (mesh.MaterialOverride is BaseMaterial3D) {
 
-				BaseMaterial3D mat = mesh.MaterialOverride as BaseMaterial3D;
-				mat.EmissionEnergyMultiplier = 1f;
+		if (Input.IsActionJustReleased("itemScrollUp")) {
+
+			if (selectedSlot > 0) {
+
+				selectedSlot -= 1;
+
+			} else {
+
+				selectedSlot = inventorySize - 1;
 
 			}
 
-			tooltip.Text = "[p align=center]" + collider.Name + "[/p]" + ((string)collider.GetMeta("tooltip", "[center]This interactable has no tooltip."));
+		}
 
-			switch((string)collider.GetMeta("interactableType", "None")) {
+		if (Input.IsActionJustReleased("itemScrollDown")) {
+
+			if (selectedSlot < inventorySize - 1) {
+
+				selectedSlot += 1;
+
+			} else {
+
+				selectedSlot = 0;
+
+			}
+
+		}
+
+		if (interactCast.IsColliding()){
+			((Control)tooltip.GetParent()).Visible = true;
+			if (collider != null) {
+
+				if (collider.HasNode("Mesh")) {
+
+				MeshInstance3D oldMesh = collider.GetNode<MeshInstance3D>("Mesh");
+				if (oldMesh.MaterialOverride is BaseMaterial3D) {
+
+				BaseMaterial3D mat = oldMesh.MaterialOverride as BaseMaterial3D;
+				mat.EmissionEnergyMultiplier = 0f;
+
+			}
+			}
+			}
+
+			collider = (Node3D)interactCast.GetCollider();
+
+			if (collider != null) {
+
+				if (collider.HasNode("Mesh")) {
+
+				MeshInstance3D mesh = collider.GetNode<MeshInstance3D>("Mesh");
+				if (mesh.MaterialOverride is BaseMaterial3D) {
+
+				BaseMaterial3D mat = mesh.MaterialOverride as BaseMaterial3D;
+				mat.EmissionEnergyMultiplier = 0.1f;
+
+			}
+
+			}
+			
+			
+
+			tooltip.Text = "[p align=center]" + collider.Name + "[/p]" + ((string)collider.GetMeta("tooltip", "[center]This interactable has no tooltip."));
+			if (collider != null) {
+
+				switch((string)collider.GetMeta("interactableType", "None")) {
 				
 				case "Item":
 
+
+					bool freeItem = true;
+
 					ItemResource iR = (ItemResource)collider.Get("itemResource");
 
-					tooltip.Text = "[p align=center]" + iR.itemName + "[/p]" + ((string)collider.GetMeta("tooltip", "[center]This item has no tooltip."));
+					tooltip.Text = "[p align=center]" + iR.itemName + "[/p]" + "[p align=center]'E' To grab.[/p]" + iR.tooltip;
 
 					if (Input.IsActionJustPressed("interact")) {
 
@@ -100,18 +207,62 @@ public partial class PlayerMovement : CharacterBody3D
 							coinCount += iR.itemValue;
 
 						}
-						
-						iR.itemScript.Call("OnPickup");
+						if (iR.isInventoryItem) {
 
-						collider.Free();
-						collider = null;
+							if (inventory.Count < inventorySize) {
+								if (inventory.Contains(null)) {
+
+									inventory[inventory.IndexOf(null)] = iR;
+
+								} else {
+
+									inventory.Add(iR);	
+
+								}
+								
+							} else {
+								
+								if (inventory.Contains(null)) {
+
+									inventory[inventory.IndexOf(null)] = iR;
+
+								} else {
+
+									if (iR.id != inventory[selectedSlot].id) {
+									SpawnItem(inventory[selectedSlot].id);
+									inventory[selectedSlot] = iR;
+									} else {
+										freeItem = false;
+									}
+
+								}
+								
+							}
+							inventory[selectedSlot].OnPickup(this);
+
+						}
+						
+						
+						if (freeItem) {
+							collider.Free();
+							collider = null;
+						}
+						
 
 					}
+				break;
+				case "Door":
+					if (Input.IsActionJustPressed("interact")) collider.Call("Toggle");
 				break;
 				default:
 				break;
 
 			}
+
+			}
+
+			}
+			
 			
 		} else if (collider != null) {
 			((Control)tooltip.GetParent()).Visible = false;
@@ -126,6 +277,110 @@ public partial class PlayerMovement : CharacterBody3D
 		} else {
 			((Control)tooltip.GetParent()).Visible = false;
 		}
+
+	}
+
+	public void SpawnItem(string id) {
+
+		PackedScene item = GD.Load<PackedScene>("res://Prefabs/Items/" + id + ".tscn");
+		Node spawnItem = item.Instantiate();
+		if (spawnItem is CharacterBody3D) {
+			CharacterBody3D itemSpawn = spawnItem as CharacterBody3D;
+			GetParent().AddChild(itemSpawn);
+			itemSpawn.Position = Position;
+			itemSpawn.Velocity = Basis.z * -6;
+		}
+
+	}
+
+	public override void _PhysicsProcess(double delta) 
+	{
+
+		if (!Input.IsActionPressed("crouch") && !standCast.IsColliding()) {
+			
+			cameraAnimTree.Set("crouching", false);
+			Speed = walkSpeed;
+			crouchCollider.Disabled = true;
+			normalCollider.Disabled = false;
+
+		} else if (Input.IsActionPressed("crouch")) {
+
+			cameraAnimTree.Set("crouching", true);
+			Speed = crouchSpeed;
+			crouchCollider.Disabled = false;
+			normalCollider.Disabled = true;
+
+		}
+
+		if (Input.IsActionJustPressed("drop_item") && inventory.Count - 1 >= selectedSlot) {
+
+			if (inventory[selectedSlot] != null) {
+
+				SpawnItem(inventory[selectedSlot].id);
+				inventory[selectedSlot] = null;
+
+			}
+
+		}
+
+		if (Input.IsActionJustPressed("use") && inventory.Count - 1 >= selectedSlot) {
+
+			if (inventory[selectedSlot] != null) {
+
+				inventory[selectedSlot].OnUse(this, vmAnimTree);
+
+			}
+
+		} else if (Input.IsActionJustPressed("use")) {
+
+			vmAnimTree.Set("parameters/AttackSeek/seek_position", 0);
+			vmAnimTree.Set("parameters/AttackShot/active", true);
+
+		}
+		if (Input.IsActionJustPressed("alt_use") && inventory.Count - 1 >= selectedSlot) {
+
+			if (inventory[selectedSlot] != null) {
+
+				inventory[selectedSlot].OnAltUse(this, vmAnimTree);
+
+			}
+
+		}
+
+		if (inventory.Count - 1 >= selectedSlot) {
+
+			if (inventory[selectedSlot] != null) {
+
+				PackedScene item = GD.Load<PackedScene>("res://Models/" + inventory[selectedSlot].id + "VM.tscn");
+				Node spawnItem = item.Instantiate();
+				if (spawnItem is Node3D) {
+					Node3D itemSpawn = spawnItem as Node3D;
+					if (subViewport.HasNode("Camera3D/Hand/ViewModel/ViewItem/Node2")) {
+						if ((subViewport.GetNode("Camera3D/Hand/ViewModel/ViewItem/Node2") != itemSpawn)) {
+
+							subViewport.GetNode("Camera3D/Hand/ViewModel/ViewItem/Node2").Free();
+							subViewport.GetNode("Camera3D/Hand/ViewModel/ViewItem").AddChild(itemSpawn);
+
+						}
+						
+					} else {
+						subViewport.GetNode("Camera3D/Hand/ViewModel/ViewItem").AddChild(itemSpawn);
+					}
+				} 
+
+			} else if (subViewport.HasNode("Camera3D/Hand/ViewModel/ViewItem/Node2")) {
+
+			subViewport.GetNode("Camera3D/Hand/ViewModel/ViewItem/Node2").Free();
+
+		}
+
+		} else if (subViewport.HasNode("Camera3D/Hand/ViewModel/ViewItem/Node2")) {
+
+			subViewport.GetNode("Camera3D/Hand/ViewModel/ViewItem/Node2").Free();
+
+		}
+
+		
 
 		itemLabel.Text = (coinCount.ToString() + " Coins");
 		
@@ -143,13 +398,17 @@ public partial class PlayerMovement : CharacterBody3D
 		
 		camera.Rotation = new Vector3(Mathf.Clamp(camera.GetRotation().x, minLookAngle, maxLookAngle), camera.GetRotation().y, camera.GetRotation().z);
 
+		head.Rotation = camera.Rotation;
+
 		// Add the gravity.
 		if (!IsOnFloor() && hangTime <= 0) {
 		velocity.y -= gravity * (float)delta;
 		}
 		// Handle Jump.
-		if (Input.IsActionJustPressed("jump") && IsOnFloor()) {
+		if (Input.IsActionJustPressed("jump") && IsOnFloor() && !Input.IsActionPressed("crouch")) {
 			velocity.y = JumpVelocity;
+			vmAnimTree.Set("parameters/JumpSeek/seek_position", 0);
+			vmAnimTree.Set("parameters/JumpShot/active", true);
 			jumping = true;
 		}
 			
@@ -173,10 +432,12 @@ public partial class PlayerMovement : CharacterBody3D
 		Vector2 inputDir = Input.GetVector("movement_left", "movement_right", "movement_forward", "movement_back");
 		if (inputDir != Vector2.Zero && IsOnFloor()) {
 
-			if (stateMachine.GetCurrentNode() != "PlayerCameraWalk") stateMachine.Travel("PlayerCameraWalk");
+			cameraAnimTree.Set("moving", true);
+			vmAnimTree.Set("moving", true);
 
 		} else {
-			if (stateMachine.GetCurrentNode() != "PlayerCameraIdle") stateMachine.Travel("PlayerCameraIdle");
+			cameraAnimTree.Set("moving", false);
+			vmAnimTree.Set("moving", false);
 		}
 		if (inputDir != Vector2.Zero) {input = input.Lerp(inputDir, movementControl);} else {input = input.Lerp(Vector2.Zero, movementControl);}
 		Vector3 direction = (Transform.basis * new Vector3(input.x, 0, input.y));

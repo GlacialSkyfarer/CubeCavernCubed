@@ -1,15 +1,14 @@
-[gd_scene load_steps=9 format=3 uid="uid://ibskod0na1hb"]
+[gd_scene load_steps=8 format=3 uid="uid://bepjyormk8jhd"]
 
 [ext_resource type="Script" path="res://Prefabs/Items/ItemProperties.cs" id="1_ienaa"]
 [ext_resource type="Texture2D" uid="uid://buwdiusheoqp5" path="res://Models/CopperCoin.png" id="1_yi6ae"]
-[ext_resource type="Script" path="res://Items/ItemScript.cs" id="2_5uxa0"]
 [ext_resource type="Script" path="res://Items/ItemResource.cs" id="2_i3vym"]
 [ext_resource type="ArrayMesh" uid="uid://cpctj8ua2gniy" path="res://Models/Coin.obj" id="2_yy8pc"]
 
-[sub_resource type="Resource" id="Resource_0mpar"]
+[sub_resource type="Resource" id="Resource_8o3kb"]
 script = ExtResource("2_i3vym")
-itemScript = ExtResource("2_5uxa0")
 itemName = "Copper Coin"
+id = "CopperCoin"
 isInventoryItem = false
 itemValue = 1
 givesValue = true
@@ -18,6 +17,7 @@ givesAmmo = false
 healthValue = 0
 givesHealth = false
 isWeapon = false
+tooltip = "Worth 1 coin."
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_wothy"]
 
@@ -28,14 +28,13 @@ emission_enabled = true
 emission_energy_multiplier = 0.0
 texture_filter = 0
 
-[node name="CopperCoin" type="RigidBody3D"]
-collision_layer = 6
-collision_mask = 6
-lock_rotation = true
+[node name="CharacterBody3D" type="CharacterBody3D"]
+collision_layer = 2
+collision_mask = 4
 script = ExtResource("1_ienaa")
-itemResource = SubResource("Resource_0mpar")
-metadata/interactableType = "Item"
+itemResource = SubResource("Resource_8o3kb")
 metadata/tooltip = "[p align=center][color=LIGHT_GRAY]Worth 1 coin[/color][/p]"
+metadata/interactableType = "Item"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(0.4, 0, 0, 0, 0.03, 0, 0, 0, 0.4, 0, 0, 0)
@@ -44,3 +43,4 @@ shape = SubResource("CylinderShape3D_wothy")
 [node name="Mesh" type="MeshInstance3D" parent="."]
 material_override = SubResource("StandardMaterial3D_o44bj")
 mesh = ExtResource("2_yy8pc")
+skeleton = NodePath("")

@@ -1,0 +1,38 @@
+newmtl 1Mtl
+Material Color
+Ka 0.373615 0.368591 0.383775
+Kd 0.373615 0.368591 0.383775
+Ks 0.147981 0.145991 0.152005 
+
+d 1
+
+Ns 0
+
+newmtl 13Mtl
+Material Color
+Ka 0.373615 0.368591 0.383775
+Kd 0.373615 0.368591 0.383775
+Ks 0.0293031 0.0289091 0.0301 
+
+d 1
+
+Ns 22
+
+map_Ka 13_diff.png
+map_Kd 13_diff.png
+map_d 13_diff.png
+
+map_Bump 13_nmap.png
+
+map_Ns 13_spec.png
+
+newmtl Torch1Mtl
+Material Color
+Ka 0.124741 0.113921 0.121986
+Kd 0.124741 0.113921 0.121986
+Ks 0.0494072 0.0451216 0.0483159 
+
+d 1
+
+Ns 0
+

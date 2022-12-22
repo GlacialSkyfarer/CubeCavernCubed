@@ -1,15 +1,14 @@
-[gd_scene load_steps=9 format=3 uid="uid://bc65227j3q4ci"]
+[gd_scene load_steps=8 format=3 uid="uid://87rrhdmb6q3o"]
 
 [ext_resource type="Script" path="res://Prefabs/Items/ItemProperties.cs" id="1_ba4ga"]
 [ext_resource type="Script" path="res://Items/ItemResource.cs" id="2_gu4ed"]
-[ext_resource type="Script" path="res://Items/ItemScript.cs" id="2_qjeqi"]
 [ext_resource type="Texture2D" uid="uid://2lhq8fpdfe0f" path="res://Models/GoldCoin.png" id="3_43836"]
 [ext_resource type="ArrayMesh" uid="uid://cpctj8ua2gniy" path="res://Models/Coin.obj" id="4_vwnxt"]
 
 [sub_resource type="Resource" id="Resource_8o3kb"]
 script = ExtResource("2_gu4ed")
-itemScript = ExtResource("2_qjeqi")
 itemName = "Gold Coin"
+id = "GoldCoin"
 isInventoryItem = false
 itemValue = 5
 givesValue = true
@@ -18,6 +17,7 @@ givesAmmo = false
 healthValue = 0
 givesHealth = false
 isWeapon = false
+tooltip = null
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_wothy"]
 
@@ -29,8 +29,8 @@ emission_energy_multiplier = 0.0
 texture_filter = 0
 
 [node name="GoldCoin" type="RigidBody3D"]
-collision_layer = 6
-collision_mask = 6
+collision_layer = 2
+collision_mask = 4
 lock_rotation = true
 script = ExtResource("1_ba4ga")
 itemResource = SubResource("Resource_8o3kb")
