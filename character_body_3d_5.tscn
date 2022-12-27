@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://citvypfh07gbu"]
+
+[ext_resource type="Script" path="res://Enemies/EnemyBase.cs" id="1_l7yhl"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_xupkl"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_covek"]
+resource_local_to_scene = true
+emission_enabled = true
+emission = Color(1, 0.286275, 0.223529, 1)
+emission_energy_multiplier = 0.1
+
+[sub_resource type="BoxMesh" id="BoxMesh_is2gx"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_covek")
+
+[node name="CharacterBody3D5" type="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, -4)
+collision_layer = 17
+collision_mask = 17
+script = ExtResource("1_l7yhl")
+meshPath = NodePath("MeshInstance3D")
+itemPools = [["PlatinumCoin", "NotStick", "NotStick", "Stick", "Stick", "Stick", "PlatinumCoin", "None"], ["Stick"]]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_xupkl")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_is2gx")

@@ -1,0 +1,24 @@
+[gd_resource type="Resource" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Resources/Items/NotStick.cs" id="1_bw4cq"]
+
+[resource]
+resource_local_to_scene = true
+script = ExtResource("1_bw4cq")
+itemName = "Not A Stick"
+id = "NotStick"
+isInventoryItem = true
+itemValue = -427
+givesValue = false
+ammoValue = 0
+givesAmmo = false
+healthValue = 0
+givesHealth = false
+isWeapon = true
+useTime = 5.0
+range = 0.0
+tooltip = "[center][color=LIGHT_GRAY]Wipes things from existence.[/color]
+[color=LIGHT_GRAY]10,000 Damage[/color]
+[color=LIGHT_GRAY]Very Slow Speed[/color]
+[color=YELLOW][i]It's actually not even wood.[/i][/color]
+[color=DARK_GRAY]Crafting material[/color]"

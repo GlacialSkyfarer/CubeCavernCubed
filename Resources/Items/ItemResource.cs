@@ -24,6 +24,10 @@ public partial class ItemResource : Resource
     public bool givesHealth;
     [Export]
     public bool isWeapon;
+    [Export]
+    public float useTime;
+    [Export]
+    public float range;
     [Export(PropertyHint.MultilineText)]
     public string tooltip;
 

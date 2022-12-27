@@ -3,8 +3,6 @@ using System;
 
 public partial class NotStick : ItemResource
 {
-
-    public int damage = 1;
 	
 	public override void OnUse(PlayerMovement player, AnimationTree anim) {
 
@@ -17,6 +15,8 @@ public partial class NotStick : ItemResource
             
 
         }
+
+        player.Attack(10000);
 
         base.OnUse(player, anim);
 

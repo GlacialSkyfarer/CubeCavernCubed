@@ -1,5 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://b86myjmw5s6o6"]
+[gd_scene load_steps=5 format=3 uid="uid://b86myjmw5s6o6"]
 
+[ext_resource type="PackedScene" uid="uid://citvypfh07gbu" path="res://character_body_3d_5.tscn" id="4_35r0q"]
+[ext_resource type="PackedScene" uid="uid://djjh06vr0a7rs" path="res://Prefabs/Crucible.tscn" id="4_j3r7m"]
 [ext_resource type="PackedScene" uid="uid://mn86md3weduq" path="res://Prefabs/rooms/Clipper.tscn" id="7_u4t2q"]
 [ext_resource type="PackedScene" uid="uid://cxi6doe6j6iyw" path="res://Prefabs/Player.tscn" id="8_msedi"]
 
@@ -8,3 +10,14 @@
 [node name="Clipper" parent="." instance=ExtResource("7_u4t2q")]
 
 [node name="Player" parent="." instance=ExtResource("8_msedi")]
+
+[node name="CharacterBody3D5" parent="." instance=ExtResource("4_35r0q")]
+
+[node name="CharacterBody3D6" parent="." instance=ExtResource("4_35r0q")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 1, -10)
+
+[node name="CharacterBody3D7" parent="." instance=ExtResource("4_35r0q")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 1, -6)
+
+[node name="StaticBody3D" parent="." instance=ExtResource("4_j3r7m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -9)

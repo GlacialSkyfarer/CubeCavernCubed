@@ -1,7 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://djauugmnud7jr"]
+[gd_scene load_steps=7 format=3 uid="uid://bi228wil4uqo5"]
 
 [ext_resource type="Script" path="res://Prefabs/Items/ItemProperties.cs" id="1_0bvpp"]
-[ext_resource type="Resource" uid="uid://cgj5ipmss0grx" path="res://Items/Stick.tres" id="2_gy0nx"]
+[ext_resource type="Resource" path="res://Resources/Items/Stick.tres" id="2_uew83"]
 [ext_resource type="Texture2D" uid="uid://w4qb0gish33l" path="res://Models/Stick.png" id="3_m2b7s"]
 [ext_resource type="ArrayMesh" uid="uid://boyudpo4g0ujt" path="res://Models/Stick.obj" id="4_3avof"]
 
@@ -17,10 +17,10 @@ emission_energy_multiplier = 0.0
 texture_filter = 0
 
 [node name="Stick" type="CharacterBody3D"]
-collision_layer = 2
+collision_layer = 10
 collision_mask = 4
 script = ExtResource("1_0bvpp")
-itemResource = ExtResource("2_gy0nx")
+itemResource = ExtResource("2_uew83")
 metadata/tooltip = "[p align=center]2 Damage[/p][p align=center[/p][p align=center]Crafting material[/p]"
 metadata/interactableType = "Item"
 

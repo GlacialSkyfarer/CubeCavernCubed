@@ -1,0 +1,21 @@
+[gd_resource type="Resource" load_steps=2 format=3 uid="uid://cv41q2t4k7me"]
+
+[ext_resource type="Script" path="res://Resources/Items/ItemResource.cs" id="1_3xfi2"]
+
+[resource]
+script = ExtResource("1_3xfi2")
+itemName = "Paradoxtick"
+id = "Paradoxtick"
+isInventoryItem = true
+itemValue = 0
+givesValue = false
+ammoValue = 0
+givesAmmo = false
+healthValue = 0
+givesHealth = false
+isWeapon = false
+useTime = 0.0
+range = 0.0
+tooltip = "[center][color=LIGHT_GRAY]The two things canceled out.[/color]
+[color=LIGHT_GRAY]Does nothing[/color]
+[color=YELLOW][i]To be (a stick) or not to be (a stick)... This thing chose both.[/i][/color]"

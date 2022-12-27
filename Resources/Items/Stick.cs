@@ -4,11 +4,12 @@ using System;
 public partial class Stick : ItemResource
 {
 
-    public int damage = 1;
+    [Export]
+    public int damage = 2;
 	
 	public override void OnUse(PlayerMovement player, AnimationTree anim) {
 
-        player.SpawnItem("PlatinumCoin");
+        player.Call("Attack", damage);
 
         base.OnUse(player, anim);
 

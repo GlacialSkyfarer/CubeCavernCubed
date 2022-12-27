@@ -1,0 +1,65 @@
+[gd_scene load_steps=9 format=3 uid="uid://djjh06vr0a7rs"]
+
+[ext_resource type="Script" path="res://CrucibleScript.cs" id="1_6f6sq"]
+[ext_resource type="Texture2D" uid="uid://bh5xxeyhrpg8j" path="res://Models/Crucible.png" id="2_h6eye"]
+[ext_resource type="Script" path="res://Resources/RecipeResource.cs" id="2_o5gtm"]
+[ext_resource type="ArrayMesh" uid="uid://b8w2mpqhtnd37" path="res://Models/Crucible.obj" id="3_8hf8q"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_koj1f"]
+size = Vector3(1, 0.188, 1)
+
+[sub_resource type="Resource" id="Resource_5o44t"]
+script = ExtResource("2_o5gtm")
+result = "Paradoxtick"
+ingredients = ["Stick", "NotStick"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r8foh"]
+resource_local_to_scene = true
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+albedo_texture = ExtResource("2_h6eye")
+metallic_specular = 0.0
+emission_enabled = true
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.0
+texture_filter = 0
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_e2fj6"]
+size = Vector3(1, 0.063, 1)
+
+[node name="Crucible" type="StaticBody3D"]
+collision_layer = 5
+collision_mask = 5
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.094, 0)
+shape = SubResource("BoxShape3D_koj1f")
+
+[node name="Crucible" type="StaticBody3D" parent="."]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("1_6f6sq")
+recipes = [SubResource("Resource_5o44t")]
+areaPath = NodePath("Area3D")
+metadata/tooltip = "[center]Press 'E' to craft."
+metadata/interactableType = "Crucible"
+
+[node name="Mesh" type="MeshInstance3D" parent="Crucible"]
+material_override = SubResource("StandardMaterial3D_r8foh")
+mesh = ExtResource("3_8hf8q")
+skeleton = NodePath("../..")
+
+[node name="Area3D" type="Area3D" parent="Crucible"]
+collision_layer = 8
+collision_mask = 8
+metadata/interactableType = "Crucible"
+metadata/tooltip = "[center]Press 'E' to craft."
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Crucible/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.281, 0)
+shape = SubResource("BoxShape3D_e2fj6")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Crucible"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.279084, 0)
+shape = SubResource("BoxShape3D_e2fj6")

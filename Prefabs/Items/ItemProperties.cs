@@ -13,8 +13,8 @@ public partial class ItemProperties : CharacterBody3D
 	{
 		Vector3 vel = Velocity;
 		vel.y -= gravity * (float)delta;
-		vel.x = Mathf.Lerp(vel.x, 0, 0.08f);
-		vel.z = Mathf.Lerp(vel.z, 0, 0.08f);
+		vel.x = Mathf.Lerp(vel.x, 0, 0.16f);
+		vel.z = Mathf.Lerp(vel.z, 0, 0.16f);
 		Velocity = vel;
 		MoveAndSlide();
 	}

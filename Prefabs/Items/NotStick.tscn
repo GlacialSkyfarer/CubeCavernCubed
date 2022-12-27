@@ -1,7 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://cv1ih42mvmiam"]
+[gd_scene load_steps=7 format=3 uid="uid://248yqlslk3gf"]
 
 [ext_resource type="Script" path="res://Prefabs/Items/ItemProperties.cs" id="1_x7lkj"]
-[ext_resource type="Resource" uid="uid://dmbnpnvoac82b" path="res://Items/NotStick.tres" id="2_bdxe0"]
+[ext_resource type="Resource" path="res://Resources/Items/NotStick.tres" id="2_a8oab"]
 [ext_resource type="Texture2D" uid="uid://w4qb0gish33l" path="res://Models/Stick.png" id="4_ruimn"]
 [ext_resource type="ArrayMesh" uid="uid://boyudpo4g0ujt" path="res://Models/Stick.obj" id="5_uk4l3"]
 
@@ -17,10 +17,10 @@ emission_energy_multiplier = 0.0
 texture_filter = 0
 
 [node name="CharacterBody3D" type="CharacterBody3D"]
-collision_layer = 2
+collision_layer = 10
 collision_mask = 4
 script = ExtResource("1_x7lkj")
-itemResource = ExtResource("2_bdxe0")
+itemResource = ExtResource("2_a8oab")
 metadata/tooltip = "[p align=center]Magically removes items from exsistence.[/p][p align=center][color=LIGHT_GRAY][i]Well then what the fuck is it?![/i][/color][/p]"
 metadata/interactableType = "Item"
 

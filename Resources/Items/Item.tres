@@ -1,6 +1,6 @@
-[gd_resource type="Resource" load_steps=3 format=3 uid="uid://dqh22aqiyoo66"]
+[gd_resource type="Resource" load_steps=3 format=3]
 
-[ext_resource type="Script" path="res://Items/ItemResource.cs" id="1_57ax3"]
+[ext_resource type="Script" path="res://Resources/Items/ItemResource.cs" id="1_57ax3"]
 [ext_resource type="Script" path="res://Items/ItemScript.cs" id="1_l1r5q"]
 
 [resource]

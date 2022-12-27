@@ -1,8 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://bepjyormk8jhd"]
+[gd_scene load_steps=8 format=3]
 
 [ext_resource type="Script" path="res://Prefabs/Items/ItemProperties.cs" id="1_ienaa"]
 [ext_resource type="Texture2D" uid="uid://buwdiusheoqp5" path="res://Models/CopperCoin.png" id="1_yi6ae"]
-[ext_resource type="Script" path="res://Items/ItemResource.cs" id="2_i3vym"]
+[ext_resource type="Script" path="res://Resources/Items/ItemResource.cs" id="2_i3vym"]
 [ext_resource type="ArrayMesh" uid="uid://cpctj8ua2gniy" path="res://Models/Coin.obj" id="2_yy8pc"]
 
 [sub_resource type="Resource" id="Resource_8o3kb"]

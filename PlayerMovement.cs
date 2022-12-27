@@ -28,9 +28,13 @@ public partial class PlayerMovement : CharacterBody3D
 	NodePath crouchColliderPath;
 	[Export]
 	NodePath standCastPath;
+	[Export]
+	NodePath attackRayPath;
 
 	CollisionShape3D normalCollider;
 	CollisionShape3D crouchCollider;
+
+	float jumpBuffer = 0;
 	
 	public int selectedSlot = 0;
 	public Godot.Collections.Array<ItemResource> inventory;
@@ -57,6 +61,8 @@ public partial class PlayerMovement : CharacterBody3D
 	[Export]
 	float movementControl = 0.05f;
 
+	float useTimer = 0;
+
 	[Export]
 	double maxHangTime = 0.2;
 	double hangTime = 0;
@@ -82,18 +88,34 @@ public partial class PlayerMovement : CharacterBody3D
 
 	RayCast3D standCast;
 
+	RayCast3D attackCast;
+
 	Node3D head;
 
 	Node subViewport;
 	
+	public void Attack(float damage) {
+
+		if (attackCast.IsColliding()) {
+
+			Node3D collider = (Node3D)attackCast.GetCollider();
+
+			collider.Call("Hurt", damage);
+
+		}
+
+	}
+
 	public override void _Ready() {
+
+		
 
 		standCast = GetNode<RayCast3D>(standCastPath);
 
 		crouchCollider = GetNode<CollisionShape3D>(crouchColliderPath);
 		normalCollider = GetNode<CollisionShape3D>(normalColliderPath);
 		
-
+		attackCast = GetNode<RayCast3D>(attackRayPath);
 		subViewport = GetNode(subViewportPath);
 		vmAnimTree = GetNode<AnimationTree>(vmAnimPath);
 		head = (Node3D)GetNode(headPath);
@@ -123,6 +145,17 @@ public partial class PlayerMovement : CharacterBody3D
 
 	public override void _Process(double delta) {
 
+		jumpBuffer -= (float)delta;
+
+		if (Input.IsActionJustPressed("jump")){
+
+			jumpBuffer = 0.2f;
+
+		}
+
+		useTimer -= (float)delta;
+
+		vmAnimTree.Set("itemCooldown", useTimer);
 
 		if (Input.IsActionJustReleased("itemScrollUp")) {
 
@@ -212,11 +245,14 @@ public partial class PlayerMovement : CharacterBody3D
 							if (inventory.Count < inventorySize) {
 								if (inventory.Contains(null)) {
 
-									inventory[inventory.IndexOf(null)] = iR;
+									int placedItem = inventory.IndexOf(null);
+									inventory[placedItem] = iR;
+									inventory[placedItem].OnPickup(this);
 
 								} else {
 
 									inventory.Add(iR);	
+									inventory[inventory.IndexOf(iR)].OnPickup(this);
 
 								}
 								
@@ -224,13 +260,16 @@ public partial class PlayerMovement : CharacterBody3D
 								
 								if (inventory.Contains(null)) {
 
-									inventory[inventory.IndexOf(null)] = iR;
+									int placedItem = inventory.IndexOf(null);
+									inventory[placedItem] = iR;
+									inventory[placedItem].OnPickup(this);
 
 								} else {
 
 									if (iR.id != inventory[selectedSlot].id) {
 									SpawnItem(inventory[selectedSlot].id);
 									inventory[selectedSlot] = iR;
+									inventory[selectedSlot].OnPickup(this);
 									} else {
 										freeItem = false;
 									}
@@ -238,7 +277,7 @@ public partial class PlayerMovement : CharacterBody3D
 								}
 								
 							}
-							inventory[selectedSlot].OnPickup(this);
+							
 
 						}
 						
@@ -253,6 +292,9 @@ public partial class PlayerMovement : CharacterBody3D
 				break;
 				case "Door":
 					if (Input.IsActionJustPressed("interact")) collider.Call("Toggle");
+				break;
+				case "Crucible":
+					if (Input.IsActionJustPressed("interact")) collider.Call("Craft");
 				break;
 				default:
 				break;
@@ -325,16 +367,21 @@ public partial class PlayerMovement : CharacterBody3D
 
 		if (Input.IsActionJustPressed("use") && inventory.Count - 1 >= selectedSlot) {
 
-			if (inventory[selectedSlot] != null) {
+			if (inventory[selectedSlot] != null && useTimer <= 0) {
 
 				inventory[selectedSlot].OnUse(this, vmAnimTree);
+				useTimer = inventory[selectedSlot].useTime;
+				vmAnimTree.Set("maxItemCooldown", inventory[selectedSlot].useTime);
 
 			}
 
-		} else if (Input.IsActionJustPressed("use")) {
+		} else if (Input.IsActionJustPressed("use") && useTimer <= 0) {
 
 			vmAnimTree.Set("parameters/AttackSeek/seek_position", 0);
 			vmAnimTree.Set("parameters/AttackShot/active", true);
+			Attack(1);
+			useTimer = 0.3f;
+			vmAnimTree.Set("maxItemCooldown", 0.3f);
 
 		}
 		if (Input.IsActionJustPressed("alt_use") && inventory.Count - 1 >= selectedSlot) {
@@ -405,11 +452,12 @@ public partial class PlayerMovement : CharacterBody3D
 		velocity.y -= gravity * (float)delta;
 		}
 		// Handle Jump.
-		if (Input.IsActionJustPressed("jump") && IsOnFloor() && !Input.IsActionPressed("crouch")) {
+		if (jumpBuffer > 0 && IsOnFloor() && !Input.IsActionPressed("crouch")) {
 			velocity.y = JumpVelocity;
 			vmAnimTree.Set("parameters/JumpSeek/seek_position", 0);
 			vmAnimTree.Set("parameters/JumpShot/active", true);
 			jumping = true;
+			jumpBuffer = 0;
 		}
 			
 		if (!Input.IsActionPressed("jump")) {

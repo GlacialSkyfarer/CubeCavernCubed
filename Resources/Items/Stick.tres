@@ -1,10 +1,11 @@
-[gd_resource type="Resource" load_steps=2 format=3 uid="uid://cgj5ipmss0grx"]
+[gd_resource type="Resource" load_steps=2 format=3]
 
-[ext_resource type="Script" path="res://Items/Stick.cs" id="1_i7lrg"]
+[ext_resource type="Script" path="res://Resources/Items/Stick.cs" id="1_i7lrg"]
 
 [resource]
 resource_local_to_scene = true
 script = ExtResource("1_i7lrg")
+damage = 2
 itemName = "Stick"
 id = "Stick"
 isInventoryItem = true
@@ -15,5 +16,8 @@ givesAmmo = false
 healthValue = 0
 givesHealth = false
 isWeapon = true
+useTime = 0.3
+range = 0.0
 tooltip = "[center][color=LIGHT_GRAY]2 Damage[/color]
+[color=LIGHT_GRAY]Average Speed[/color]
 [color=DARK_GRAY]Crafting material[/color]"
